@@ -6,9 +6,9 @@ Ontario is a Semantic Data Lake capable of storing and querying heterogeneous da
 
 One can test Ontario using a self contained Ontario container for small data. 
 Self-contained Ontario contains:
-* MongoDB 3.4: (default port 27017 exposed)
+* MongoDB 3.4
 * Spark 2.1.1
-* Ontario endpoint: http://<address>:5000/sparql
+* Ontario endpoint: `http://youraddress:5000/sparql`
 
 To test on your local machine, do the following:
 
@@ -30,14 +30,14 @@ To use your own data:
   * To add raw files, do either of the following:
     * use docker copy to put files: `docker cp /path/to/yourfile.csv.json:/datasets`, OR
     * mount your data folder to `/datasets` as: `-v /path/to/csv/json/filesfolder:/datasets`,
-    * use mongoimport to load data to mongodb: `docker exec -it ontario-demo mongoimport --type csv|json [--headerline] --db <yourdatabase> --collection <collectionname> --file <path-to-json-or-csv-file>
+    * use mongoimport to load data to mongodb: `docker exec -it ontario-demo mongoimport --type csv|json [--headerline] --db [yourdatabase] --collection [collectionname] --file [path-to-json-or-csv-file]`
   * Create RDF molecule templates for your dataset. 
     RDF molecule templates file contains the following elements:
     * `rootType`: RDF type (rdf:type) or arbitry name of a molecule
     * `predicates`: list of predicates with `range` (if available)
     * `linkedTo`: list of `range` values (if available in `predicates` element)
     * `wrappers`: list of wrapper that provide a certain set of predicates of this RDF molecule template
-   Example:
+   Example: `person-template.json`
     ```json
      {
      "rootType": "http://xmlns.com/foaf/0.1/Person",
@@ -70,19 +70,18 @@ To use your own data:
     }
     ```
   * Create RML mapping for csv, json, or mongodb collection.
-    Example:
+    Example: `sparkcsvmapping.ttl`
     ```
-    @prefix rr: <http://www.w3.org/ns/r2rml#>.
-    @prefix rml: <http://semweb.mmlab.be/ns/rml#>.
-    @prefix ql: <http://semweb.mmlab.be/ns/ql#>.
-    @prefix bsbm-inst: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/> .
+    @prefix rr:   <http://www.w3.org/ns/r2rml#>.
+    @prefix rml:  <http://semweb.mmlab.be/ns/rml#>.
+    @prefix ql:   <http://semweb.mmlab.be/ns/ql#>.
     @prefix bsbm: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/> .
     @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-    @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+    @prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
     @prefix foaf: <http://xmlns.com/foaf/0.1/> .
-    @prefix dc: <http://purl.org/dc/elements/1.1/> .
-    @prefix rev: <http://purl.org/stuff/rev#> .
-    @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+    @prefix dc:   <http://purl.org/dc/elements/1.1/> .
+    @prefix rev:  <http://purl.org/stuff/rev#> .
+    @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
     @prefix base: <http://eis.iai.uni-bonn.de/ontario/mapping#> .
 
     #PERSON mappings
@@ -127,15 +126,15 @@ To use your own data:
           ]
      ].  
     ```
-  * Create configuration file: config.json
+  * Create configuration file:
    Configuration file points to templates and mappings. In addition, you can specify different parameters to spark context based on your system capacity.
-   Example:
-   ```
+   Example: `config.json`
+   ```json
    {
    "MoleculeTemplates": [
      {
        "type": "filepath",
-       "path": "/ontario/templates/personTemplates.json"
+       "path": "/ontario/templates/person-template.json"
      }
    ],
    "WrappersConfig": {
@@ -150,7 +149,7 @@ To use your own data:
      "SPARKCSV": {
        "type": "SPARK",
        "url": "local[*]",
-       "mappingfile": "sparkmapping.ttl",
+       "mappingfile": "sparkcsvmapping.ttl",
        "params": {
          "spark.driver.cores": "4",
          "spark.executor.cores": "4",
@@ -164,7 +163,7 @@ To use your own data:
      "SPARKJSON": {
        "type": "SPARK",
        "url": "local[*]",
-       "mappingfile": "sparkmapping.ttl",
+       "mappingfile": "sparkjsonmapping.ttl",
        "params": {
          "spark.driver.cores": "4",
          "spark.executor.cores": "4",
@@ -178,6 +177,7 @@ To use your own data:
     }
    }
    ``` 
+Then, run the following with -v options pointing to the above files:
   ```
    docker run -d --name ontario-demo -v /path/to/csv/or/json/filesfolder:/datasets -v /path/to/config.json:/ontario/config/config.json -v /path/to/templatesfolder:/ontario/templates -v /path/to/mappingsfolder:/ontario/mappings  -p 5001:5000 -p 27017:27017 kemele/ontario:0.1-spark-2.1.1-hadoop2.7-mongodb_3.4
   ```
