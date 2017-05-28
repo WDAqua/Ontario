@@ -28,9 +28,9 @@ The image contains a sample data of person.csv in /datasets and person collectio
 
 To use your own data:
   * To add raw files, do either of the following:
-    * use docker copy to put files: `docker cp /path/to/yourfile.csv.json:/datasets`, OR
-    * mount your data folder to `/datasets` as: `-v /path/to/csv/json/filesfolder:/datasets`,
-    * use mongoimport to load data to mongodb: `docker exec -it ontario-demo mongoimport --type csv|json [--headerline] --db [yourdatabase] --collection [collectionname] --file [path-to-json-or-csv-file]`
+    * use docker copy to put files: ```docker cp /path/to/yourfile.csv.json:/datasets```, OR
+    * mount your data folder to `/datasets` as: ```-v /path/to/csv/json/filesfolder:/datasets```
+    * use mongoimport to load data to mongodb: ```docker exec -it ontario-demo mongoimport --type csv|json [--headerline] --db [yourdatabase] --collection [collectionname] --file [path-to-json-or-csv-file]```
   * Create RDF molecule templates for your dataset. 
     RDF molecule templates file contains the following elements:
     * `rootType`: RDF type (rdf:type) or arbitry name of a molecule
