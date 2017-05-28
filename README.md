@@ -196,7 +196,11 @@ Then, run the following with -v options pointing to the above files:
   ```
 
 3. Run queries 
-
+* Use `curl`:
+  ```
+  curl -G --data-urlencode "query=select ?person where {?person a <http://xmlns.com/foaf/0.1/Person>}limit 10" http://0.0.0.0:5001/sparql
+  ```
+* Use `python` code: 
   ```python
   import urllib
   import httplib
