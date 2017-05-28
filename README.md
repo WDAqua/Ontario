@@ -8,7 +8,7 @@ One can test Ontario using a self contained Ontario container for small data.
 Self-contained Ontario contains:
 * MongoDB 3.4
 * Spark 2.1.1
-* Ontario endpoint: `http://youraddress:5000/sparql`
+* Ontario endpoint: `http://youraddress:5001/sparql`
 
 To test on your local machine, do the following:
 
