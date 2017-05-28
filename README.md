@@ -153,7 +153,7 @@ To use your own data:
                 ?person dc:publisher ?publisher.
                 ?person bsbm:country ?country.
                 ?person foaf:mbox_sh1sum ?mbox
-            }
+            } limit 10
        """
   params = urllib.urlencode({'query': prodq})
   headers = {"Accept": "*/*"}
