@@ -1,6 +1,6 @@
 # Ontario: Ontology-based Architecture for Semantic Data Lakes
 
-Ontario is a Semantic Data Lake capable of storing and querying heterogeneous data (e.g., csv, xml, rdf) in its original format. Ontario uses the RDF molecules approach as a logical representation of the heterogeneous data. MULDER federated query engine leverages RDF molecules metadata to efficiently perform query decomposition, source selection, query planning, and query execution.
+Ontario is a Semantic Data Lake capable of storing and querying heterogeneous data (e.g., csv, json, rdf) in its original format. Ontario uses the RDF molecules approach as a logical representation of the heterogeneous data. MULDER federated query engine leverages RDF molecules metadata to efficiently perform query decomposition, source selection, query planning, and query execution.
 
 ## Setting up a single container Ontario
 
