@@ -127,7 +127,57 @@ To use your own data:
           ]
      ].  
     ```
-
+  * Create configuration file: config.json
+   Configuration file points to templates and mappings. In addition, you can specify different parameters to spark context based on your system capacity.
+   Example:
+   ```
+   {
+   "MoleculeTemplates": [
+     {
+       "type": "filepath",
+       "path": "/ontario/templates/personTemplates.json"
+     }
+   ],
+   "WrappersConfig": {
+     "MappingFolder": "/ontario/mappings",
+     "MongoDB": {
+       "type": "MongoDB",
+       "url": "localhost:27017",
+       "mappingfile": "mongodbmapping.ttl",
+       "params": {
+       }
+     },
+     "SPARKCSV": {
+       "type": "SPARK",
+       "url": "local[*]",
+       "mappingfile": "sparkmapping.ttl",
+       "params": {
+         "spark.driver.cores": "4",
+         "spark.executor.cores": "4",
+         "spark.cores.max": "4",
+         "spark.default.parallelism": "4",
+         "spark.executor.memory": "4g",
+         "spark.driver.memory": "4g",
+         "spark.driver.maxResultSize": "1g"
+       }
+     },
+     "SPARKJSON": {
+       "type": "SPARK",
+       "url": "local[*]",
+       "mappingfile": "sparkmapping.ttl",
+       "params": {
+         "spark.driver.cores": "4",
+         "spark.executor.cores": "4",
+         "spark.cores.max": "4",
+         "spark.default.parallelism": "4",
+         "spark.executor.memory": "4g",
+         "spark.driver.memory": "4g",
+         "spark.driver.maxResultSize": "1g"
+       }
+     }
+    }
+   }
+   ``` 
   ```
    docker run -d --name ontario-demo -v /path/to/csv/or/json/filesfolder:/datasets -v /path/to/config.json:/ontario/config/config.json -v /path/to/templatesfolder:/ontario/templates -v /path/to/mappingsfolder:/ontario/mappings  -p 5001:5000 -p 27017:27017 kemele/ontario:0.1-spark-2.1.1-hadoop2.7-mongodb_3.4
   ```
